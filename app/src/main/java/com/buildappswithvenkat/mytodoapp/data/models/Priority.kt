@@ -1,4 +1,4 @@
-package com.buildappswithvenkat.mytodoapp.data
+package com.buildappswithvenkat.mytodoapp.data.models
 
 enum class Priority {
     HIGH,
