@@ -7,10 +7,17 @@ import android.widget.AdapterView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.buildappswithvenkat.mytodoapp.R
 import com.buildappswithvenkat.mytodoapp.data.models.Priority
+import com.buildappswithvenkat.mytodoapp.data.models.TodoData
 
 class SharedViewModel(application : Application) : AndroidViewModel(application){
+    val emptyDatabase : MutableLiveData<Boolean> = MutableLiveData(true)
+
+    fun checkIfDatabaseEmpty(toDoData : List<TodoData>){
+        emptyDatabase.value = toDoData.isEmpty()
+    }
     val listener : AdapterView.OnItemSelectedListener = object :
         AdapterView.OnItemSelectedListener{
         override fun onNothingSelected(parent: AdapterView<*>?) {

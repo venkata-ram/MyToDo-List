@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.buildappswithvenkat.mytodoapp.R
+import com.buildappswithvenkat.mytodoapp.data.viewmodel.SharedViewModel
 import com.buildappswithvenkat.mytodoapp.data.viewmodel.ToDoViewModel
 import com.buildappswithvenkat.mytodoapp.databinding.FragmentListBinding
 
@@ -19,6 +20,7 @@ class ListFragment : Fragment() {
     private val binding get()  = _binding!!
 
     private val mToDoViewModel : ToDoViewModel by viewModels()
+    private val mSharedViewModel : SharedViewModel by viewModels()
     private val adapter : ListAdapter by lazy { ListAdapter() }
 
     override fun onCreateView(
@@ -33,8 +35,13 @@ class ListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
 
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data ->
+            mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
 
+        })
+
+        mSharedViewModel.emptyDatabase.observe(viewLifecycleOwner, Observer {
+            showEmptyDatabaseViews(it)
         })
 
         binding.floatingActionButton.setOnClickListener{
@@ -45,6 +52,17 @@ class ListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun showEmptyDatabaseViews(emptyDatabase : Boolean) {
+        if(emptyDatabase){
+            binding.noDataTextview.visibility = View.VISIBLE
+            binding.noDataImageview.visibility = View.VISIBLE
+        }else{
+            binding.noDataTextview.visibility = View.INVISIBLE
+            binding.noDataImageview.visibility = View.INVISIBLE
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
