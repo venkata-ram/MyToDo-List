@@ -30,10 +30,9 @@ class ListFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding =  FragmentListBinding.inflate(layoutInflater, container, false)
 
-        val recyclerView = binding.recyclerView
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
+        setupRecyclerview()
 
+        //observe LiveData
         mToDoViewModel.getAllData.observe(viewLifecycleOwner, Observer { data ->
             mSharedViewModel.checkIfDatabaseEmpty(data)
             adapter.setData(data)
@@ -44,14 +43,17 @@ class ListFragment : Fragment() {
             showEmptyDatabaseViews(it)
         })
 
-        binding.floatingActionButton.setOnClickListener{
-            findNavController().navigate(R.id.action_listFragment_to_addFragment)
-        }
 
         //set menu
         setHasOptionsMenu(true)
 
         return binding.root
+    }
+
+    private fun setupRecyclerview() {
+        val recyclerView = binding.recyclerView
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireActivity())
     }
 
     private fun showEmptyDatabaseViews(emptyDatabase : Boolean) {
@@ -90,6 +92,11 @@ class ListFragment : Fragment() {
         builder.setTitle("Delete All?")
         builder.setMessage("Are you sure you want to remove all items?")
         builder.create().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
