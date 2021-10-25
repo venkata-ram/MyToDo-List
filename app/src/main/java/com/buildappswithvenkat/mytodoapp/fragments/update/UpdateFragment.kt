@@ -34,12 +34,11 @@ class UpdateFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateBinding.inflate(layoutInflater,container,false)
+        binding.args = args
 
         setHasOptionsMenu(true)
 
-        binding.currentTitleEt.setText(args.currentItem.title)
-        binding.currentDescriptionEt.setText(args.currentItem.description)
-        binding.currentPrioritiesSpinner.setSelection(mSharedViewModels.parsePriorityToInt(args.currentItem.priority))
+        //Spinner item selected listener
         binding.currentPrioritiesSpinner.onItemSelectedListener = mSharedViewModels.listener
 
         return binding.root
@@ -96,5 +95,10 @@ class UpdateFragment : Fragment() {
         builder.setTitle("Delete '${args.currentItem.title}'?")
         builder.setMessage("Are you sure you want to remove '${args.currentItem.title}'?")
         builder.create().show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }
