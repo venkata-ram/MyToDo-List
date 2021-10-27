@@ -13,7 +13,7 @@ import com.buildappswithvenkat.mytodoapp.data.models.Priority
 import com.buildappswithvenkat.mytodoapp.data.models.TodoData
 
 class SharedViewModel(application : Application) : AndroidViewModel(application){
-    val emptyDatabase : MutableLiveData<Boolean> = MutableLiveData(true)
+    val emptyDatabase : MutableLiveData<Boolean> = MutableLiveData(false)
 
     fun checkIfDatabaseEmpty(toDoData : List<TodoData>){
         emptyDatabase.value = toDoData.isEmpty()
