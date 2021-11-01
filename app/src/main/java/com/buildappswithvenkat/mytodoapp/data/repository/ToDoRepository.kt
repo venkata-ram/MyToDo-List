@@ -6,6 +6,8 @@ import com.buildappswithvenkat.mytodoapp.data.models.TodoData
 
 class ToDoRepository(private val toDoDao: ToDoDao) {
     val getAllData : LiveData<List<TodoData>> = toDoDao.getAllData()
+    val sortByHighPriority : LiveData<List<TodoData>> = toDoDao.sortByHighPriority()
+    val sortByLowPriority : LiveData<List<TodoData>> = toDoDao.sortByLowPriority()
 
     suspend fun insertData(todoData: TodoData){
         toDoDao.insertData(todoData)
